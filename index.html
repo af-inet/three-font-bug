@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        html,
+        body {
+            background-color: black;
+            margin: 0;
+            border: 0;
+            padding: 0;
+        }
+    </style>
+    <!-- <script src="./three.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
+</head>
+
+<body>
+    <script>
+        window.onload = function () {
+            var loader = new THREE.FontLoader();
+            loader.load('Nexa-Black.ttf.typeface.json', function (font) {
+                var geometry = new THREE.TextGeometry('a b c j i î á', {
+                    font: font,
+                    size: 80,
+                    height: 1,
+                    curveSegments: 8,
+                    bevelEnabled: true,
+                    bevelThickness: 10,
+                    bevelSize: 0,
+                    bevelOffset: 0,
+                    bevelSegments: 1
+                });
+                geometry.center();
+                var scene = new THREE.Scene();
+                var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                var renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+                var segments = 64
+                var material = new THREE.MeshNormalMaterial();
+                // material.wireframe = true // wireframe might help understanding this bug?
+                var mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+                camera.position.z = 400; // move camera back so we can see the text
+                camera.position.y = 100;
+                camera.lookAt(0, 0, 0)
+                var render = function () {
+                    requestAnimationFrame(render);
+                    renderer.render(scene, camera);
+                    // mesh.rotation.y -= 0.05;
+                };
+                render();
+            });
+        };
+    </script>
+</body>
+
+</html>
