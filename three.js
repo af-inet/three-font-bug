@@ -39724,12 +39724,19 @@
 			for ( var i = 0, il = newShapes.length; i < il; i ++ ) {
 
 				tmpShape = newShapes[ i ].s;
+				var tmpPoly = newShapes[i].p;
 				shapes.push( tmpShape );
 				tmpHoles = newShapeHoles[ i ];
 
 				for ( var j = 0, jl = tmpHoles.length; j < jl; j ++ ) {
 
-					tmpShape.holes.push( tmpHoles[ j ].h );
+					if (isPointInsidePolygon(tmpHoles[j].p, tmpPoly)) {
+						tmpShape.holes.push( tmpHoles[ j ].h );
+					} else {
+						var newShape = new Shape();
+						newShape.curves = tmpHoles[j].h.curves;
+						shapes.push(newShape);
+					}
 
 				}
 
